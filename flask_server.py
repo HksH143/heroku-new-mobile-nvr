@@ -59,6 +59,8 @@ def receive_file():
         print("Saving Images to: ",save_path)
         filename = secure_filename(my_vid.filename)
         my_vid.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+        print("file saved: ")
+        print(os.listdir(save_path))
 
         
 
