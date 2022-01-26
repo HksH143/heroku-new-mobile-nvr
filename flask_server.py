@@ -53,6 +53,7 @@ def receive_file():
         # my_img.save("/home/hdr/Desktop/cpr_project/save_files/test_video.mp4")
         my_vid=request.files["vid"]
         print("File Name: ",my_vid.filename)
+        print("Saving Images to: ",path)
         my_vid.save(path)
 
         
