@@ -57,7 +57,7 @@ def receive_file():
         print("File Name: ",my_vid.filename)
         print("Saving Images to: ",path)
         filename = secure_filename(my_vid.filename)
-        my_vid.save(path,my_vid.filename)
+        my_vid.save(path,filename)
 
         
 
