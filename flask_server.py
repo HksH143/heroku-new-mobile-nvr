@@ -1,6 +1,7 @@
 from flask import Flask,request,redirect
 from markupsafe import re
 from werkzeug.datastructures import ImmutableMultiDict
+import os 
 
 app = Flask(__name__)
 
@@ -40,6 +41,9 @@ def client_receive():
 
 @app.route("/file_upload",methods=['GET', 'POST'])
 def receive_file():
+    root_dir=os.getcwd()
+    path=root_dir+"/save_files/test_video.mp4"
+
     if request.files:
         # my_img=request.files["img"]
         
@@ -49,7 +53,7 @@ def receive_file():
         # my_img.save("/home/hdr/Desktop/cpr_project/save_files/test_video.mp4")
         my_vid=request.files["vid"]
         print("File Name: ",my_vid.filename)
-        my_vid.save("/home/hdr/Desktop/cpr_project/save_files/test_video.mp4")
+        my_vid.save(path)
 
         
 
