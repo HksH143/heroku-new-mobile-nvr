@@ -42,7 +42,7 @@ def client_receive():
 @app.route("/file_upload",methods=['GET', 'POST'])
 def receive_file():
     root_dir=os.getcwd()
-    path=root_dir+"/save_files/test_video.mp4"
+    path=root_dir+"/save_files"
 
     if request.files:
         # my_img=request.files["img"]
