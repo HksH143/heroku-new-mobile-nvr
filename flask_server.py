@@ -3,9 +3,8 @@ from markupsafe import re
 from werkzeug.datastructures import ImmutableMultiDict
 import os 
 from werkzeug.utils import secure_filename
-
-
 app = Flask(__name__)
+
 
 @app.route("/")
 def hello_world():
@@ -44,7 +43,9 @@ def client_receive():
 @app.route("/file_upload",methods=['GET', 'POST'])
 def receive_file():
     root_dir=os.getcwd()
+    
     save_path=root_dir+"/save_files"
+    app.config['UPLOAD_FOLDER']=save_path
 
     if request.files:
         # my_img=request.files["img"]
@@ -57,7 +58,7 @@ def receive_file():
         print("File Name: ",my_vid.filename)
         print("Saving Images to: ",save_path)
         filename = secure_filename(my_vid.filename)
-        my_vid.save(os.path.join(save_path,filename))
+        my_vid.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 
         
 
