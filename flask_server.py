@@ -2,6 +2,8 @@ from flask import Flask,request,redirect
 from markupsafe import re
 from werkzeug.datastructures import ImmutableMultiDict
 import os 
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 
@@ -54,6 +56,7 @@ def receive_file():
         my_vid=request.files["vid"]
         print("File Name: ",my_vid.filename)
         print("Saving Images to: ",path)
+        filename = secure_filename(my_vid.filename)
         my_vid.save(path,my_vid.filename)
 
         
