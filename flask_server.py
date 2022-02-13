@@ -10,6 +10,16 @@ app = Flask(__name__)
 def hello_world():
     return "Hello, This is web server using flask library !"
 
+@app.route("/info")
+def print_info():
+    root_dir=os.getcwd()
+    save_path=root_dir+"/save_files"
+    app.config['UPLOAD_FOLDER']=save_path
+    print("Listing current files in dir: ",save_path)
+    print(os.listdir(save_path))
+
+    return "This route is used to print file system info!"
+
 @app.route("/new_page")
 def new_page():
     return "you have entered into a new page !"
