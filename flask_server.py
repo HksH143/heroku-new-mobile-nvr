@@ -20,8 +20,11 @@ def print_info():
     files=os.listdir(save_path)
 
     for file in files:
-        file_size = os.path.getsize(file) 
-        print("File: ",file," Size: ",file_size/1000000, 'mb'," bytes : ",file_size)
+        if file != '.gitignore':
+            file_size = os.path.getsize(file) 
+            print("File: ",file," Size: ",file_size/1000000, 'mb'," bytes : ",file_size)
+
+        
 
     return "This route is used to print file system info!"
 
