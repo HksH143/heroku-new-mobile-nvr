@@ -17,6 +17,11 @@ def print_info():
     app.config['UPLOAD_FOLDER']=save_path
     print("Listing current files in dir: ",save_path)
     print(os.listdir(save_path))
+    files=os.listdir(save_path)
+
+    for file in files:
+        file_size = os.path.getsize(file) 
+        print("File: ",file," Size: ",file_size/1000000, 'mb'," bytes : ",file_size)
 
     return "This route is used to print file system info!"
 
