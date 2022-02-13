@@ -84,13 +84,14 @@ def receive_file():
 
         for file in files:
             if file != '.gitignore':
-                file_size = os.path.getsize(file) 
+                file_dir=save_path+"/"+file 
+                file_size = os.path.getsize(file_dir) 
                 print("File: ",file," Size: ",file_size/1000000, 'mb'," bytes : ",file_size)
 
         
 
         # return redirect(request.url)
-        return "server has received the file "
+        return "server has received the image "
     # return "server has received name: "
 
 
