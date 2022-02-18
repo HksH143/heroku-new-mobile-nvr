@@ -1,4 +1,4 @@
-from flask import Flask,request,redirect
+from flask import Flask,request,redirect,render_template
 from markupsafe import re
 from werkzeug.datastructures import ImmutableMultiDict
 import os 
@@ -11,12 +11,12 @@ def hello_world():
     
     return "Hello, This is web server using flask library !"
 
-@app.route("/configs")
+@app.route("/configs",methods=['GET', 'POST'])
 def send_configs():
     print("Successfully Entered the Configuration Page ")
-    wifi_ssid="Synapsify"
-    wifi_pass="synapsify@321"
-    return wifi_ssid
+    # wifi_ssid="Synapsify"
+    # wifi_pass="synapsify@321"
+    return render_template("config_form.html")
 
 
 @app.route("/info")
