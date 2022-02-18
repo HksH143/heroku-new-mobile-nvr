@@ -8,7 +8,16 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
+    
     return "Hello, This is web server using flask library !"
+
+@app.route("/configs")
+def send_configs():
+    print("Successfully Entered the Configuration Page ")
+    wifi_ssid="Synapsify"
+    wifi_pass="synapsify@321"
+    return wifi_ssid
+
 
 @app.route("/info")
 def print_info():
