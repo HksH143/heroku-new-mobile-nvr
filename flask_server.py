@@ -5,8 +5,7 @@ import os,sys
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
-sys.setrecursionlimit(1500)
-print("Recursion Rate: ",sys.getrecursionlimit())
+
 @app.route("/")
 def hello_world():
     
@@ -14,6 +13,8 @@ def hello_world():
 
 @app.route("/configs",methods=['GET', 'POST'])
 def send_configs():
+    sys.setrecursionlimit(1500)
+    print("Recursion Rate: ",sys.getrecursionlimit())
     print("Successfully Entered the Configuration Page ")
     # wifi_ssid="Synapsify"
     # wifi_pass="synapsify@321"
