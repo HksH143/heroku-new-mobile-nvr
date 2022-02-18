@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 sys.setrecursionlimit(1500)
+print("Recursion Rate: ",sys.getrecursionlimit())
 @app.route("/")
 def hello_world():
     
