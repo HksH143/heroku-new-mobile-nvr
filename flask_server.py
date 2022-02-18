@@ -1,11 +1,11 @@
 from flask import Flask,request,redirect,render_template
 from markupsafe import re
 from werkzeug.datastructures import ImmutableMultiDict
-import os 
+import os,sys 
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
-
+sys.setrecursionlimit(1500)
 @app.route("/")
 def hello_world():
     
