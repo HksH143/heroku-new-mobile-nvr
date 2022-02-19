@@ -13,11 +13,14 @@ def hello_world():
 
 @app.route("/signup",methods=['GET', 'POST'])
 def send_configs():
+    app.config['my_configs']=0
     print("Successfully Entered the Configuration Page ")
     if request.method=="POST":
         my_name=request.form["nm"]
         password=request.form["pass"]
         app.config['my_configs']=my_name,password
+        print("User entered Name: ",app.config['my_configs'][0] )
+        print("User entered Password: ",app.config['my_configs'][1] )
         return f"sending name as {my_name} and password as {password}"
         # return redirect( url_for("get_configs",usr=my_name) )
     else:
@@ -28,7 +31,7 @@ def send_configs():
 @app.route("/configs")
 def get_configs():
     usr_name,password=app.config['my_configs']
-
+    print("Received Name :",usr_name," Received password : ",password)
     return f"Recieved name as {usr_name} and passowd as {password}"
 
 @app.route("/info")
