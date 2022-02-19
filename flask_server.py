@@ -4,7 +4,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 import os,sys 
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
-
+app.config['my_configs']="",""
 sys.setrecursionlimit(1500)
 @app.route("/")
 def hello_world():
@@ -13,7 +13,7 @@ def hello_world():
 
 @app.route("/signup",methods=['GET', 'POST'])
 def send_configs():
-    app.config['my_configs']="",""
+    
     print("Successfully Entered the Configuration Page ")
     if request.method=="POST":
         my_name=request.form["nm"]
