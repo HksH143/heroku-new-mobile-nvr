@@ -1,30 +1,40 @@
-from flask import Flask,request,redirect,render_template
+from flask import Flask,request,redirect,render_template, url_for
 from markupsafe import re
 from werkzeug.datastructures import ImmutableMultiDict
 import os,sys 
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
-
+sys.setrecursionlimit(1500)
 @app.route("/")
 def hello_world():
     
     return "Hello, This is web server using flask library !"
 
-@app.route("/configs",methods=['GET', 'POST'])
+@app.route("/signup",methods=['GET', 'POST'])
 def send_configs():
-    sys.setrecursionlimit(1500)
-    print("Recursion Rate: ",sys.getrecursionlimit())
     print("Successfully Entered the Configuration Page ")
+    if request.method=="POST":
+        my_name=request.form["nm"]
+        password=request.form["pass"]
+        app.config['my_configs']=my_name,password
+        return f"sending name as {my_name} and password as {password}"
+        # return redirect( url_for("get_configs",usr=my_name) )
+    else:
+        return render_template("config_form.html")
     # wifi_ssid="Synapsify"
     # wifi_pass="synapsify@321"
-    return render_template("config_form.html")
+    
+@app.route("/configs")
+def get_configs():
+    usr_name,password=app.config['my_configs']
 
+    return f"Recieved name as {usr_name} and passowd as {password}"
 
 @app.route("/info")
 def print_info():
     root_dir=os.getcwd()
-    save_path=root_dir+"/save_files"
+    save_path=root_dir+"/save_files"    
     app.config['UPLOAD_FOLDER']=save_path
     print("Listing current files in dir: ",save_path)
     print(os.listdir(save_path))
