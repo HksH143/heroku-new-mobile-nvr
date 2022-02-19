@@ -30,9 +30,11 @@ def send_configs():
     
 @app.route("/configs")
 def get_configs():
-    usr_name,password=app.config['my_configs']
-    print("Received Name :",usr_name," Received password : ",password)
-    return f"Recieved name as {usr_name} and passowd as {password}"
+    # usr_name,password=app.config['my_configs']
+    # print("Received Name :",usr_name," Received password : ",password)
+    # return f"Recieved name as {usr_name} and passowd as {password}"
+    print("Received Name :",app.config['my_configs'][0]," Received password : ",app.config['my_configs'][1])
+    return f"Recieved name as {app.config['my_configs'][0]} and passowd as {app.config['my_configs'][1]}"
 
 @app.route("/info")
 def print_info():
