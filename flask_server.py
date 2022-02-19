@@ -5,6 +5,9 @@ import os,sys
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config['my_configs']="",""
+
+g_name=""
+g_pass=""
 sys.setrecursionlimit(1500)
 @app.route("/")
 def hello_world():
@@ -18,6 +21,8 @@ def send_configs():
     if request.method=="POST":
         my_name=request.form["nm"]
         password=request.form["pass"]
+        g_name=my_name
+        g_pass=password
         app.config['my_configs']=my_name,password
         print("User entered Name: ",app.config['my_configs'][0] )
         print("User entered Password: ",app.config['my_configs'][1] )
@@ -33,8 +38,12 @@ def get_configs():
     # usr_name,password=app.config['my_configs']
     # print("Received Name :",usr_name," Received password : ",password)
     # return f"Recieved name as {usr_name} and passowd as {password}"
-    print("Received Name :",app.config['my_configs'][0]," Received password : ",app.config['my_configs'][1])
-    return f"Recieved name as {app.config['my_configs'][0]} and passowd as {app.config['my_configs'][1]}"
+    # print("Received Name :",app.config['my_configs'][0]," Received password : ",app.config['my_configs'][1]) //uncoment this 
+    # return f"Recieved name as {app.config['my_configs'][0]} and passowd as {app.config['my_configs'][1]}"    //uncoment this
+
+    print("Received G_Name :",g_name," Received G_password : ",g_pass)
+
+    return f"Recieved g_name as {g_name} and g_passowd as {g_pass}"
 
 @app.route("/info")
 def print_info():
