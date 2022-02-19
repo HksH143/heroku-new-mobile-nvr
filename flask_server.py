@@ -13,7 +13,7 @@ def hello_world():
 
 @app.route("/signup",methods=['GET', 'POST'])
 def send_configs():
-    app.config['my_configs']=0
+    app.config['my_configs']="",""
     print("Successfully Entered the Configuration Page ")
     if request.method=="POST":
         my_name=request.form["nm"]
