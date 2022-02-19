@@ -38,12 +38,12 @@ def get_configs():
     # usr_name,password=app.config['my_configs']
     # print("Received Name :",usr_name," Received password : ",password)
     # return f"Recieved name as {usr_name} and passowd as {password}"
-    # print("Received Name :",app.config['my_configs'][0]," Received password : ",app.config['my_configs'][1]) //uncoment this 
-    # return f"Recieved name as {app.config['my_configs'][0]} and passowd as {app.config['my_configs'][1]}"    //uncoment this
+    print("Received Name :",app.config['my_configs'][0]," Received password : ",app.config['my_configs'][1]) 
+    return f"Recieved name as {app.config['my_configs'][0]} and passowd as {app.config['my_configs'][1]}"    
 
-    print("Received G_Name :",g_name," Received G_password : ",g_pass)
+    # print("Received G_Name :",g_name," Received G_password : ",g_pass)
 
-    return f"Recieved g_name as {g_name} and g_passowd as {g_pass}"
+    # return f"Recieved g_name as {g_name} and g_passowd as {g_pass}"
 
 @app.route("/info")
 def print_info():
