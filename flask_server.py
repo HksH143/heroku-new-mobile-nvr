@@ -26,20 +26,20 @@ def send_configs():
         app.config['my_configs']=my_name,password
         print("User entered Name: ",app.config['my_configs'][0] )
         print("User entered Password: ",app.config['my_configs'][1] )
-        return f"sending name as {my_name} and password as {password}"
-        # return redirect( url_for("get_configs",usr=my_name) )
+        # return f"sending name as {my_name} and password as {password}"
+        return redirect( url_for("get_configs",usr_name=my_name,usr_pass=password) )
     else:
         return render_template("config_form.html")
     # wifi_ssid="Synapsify"
     # wifi_pass="synapsify@321"
     
-@app.route("/configs")
-def get_configs():
+@app.route("/<usr_name> <usr_pass>",methods=['GET', 'POST'])
+def get_configs(usr_name,usr_pass):
     # usr_name,password=app.config['my_configs']
-    # print("Received Name :",usr_name," Received password : ",password)
-    # return f"Recieved name as {usr_name} and passowd as {password}"
-    print("Received Name :",app.config['my_configs'][0]," Received password : ",app.config['my_configs'][1]) 
-    return f"Recieved name as {app.config['my_configs'][0]} and passowd as {app.config['my_configs'][1]}"    
+    print("Received Name :",usr_name," Received password : ",usr_pass)
+    return f"Recieved name as {usr_name} and passowd as {usr_pass}"
+    # print("Received Name :",app.config['my_configs'][0]," Received password : ",app.config['my_configs'][1]) 
+    # return f"Recieved name as {app.config['my_configs'][0]} and passowd as {app.config['my_configs'][1]}"    
 
     # print("Received G_Name :",g_name," Received G_password : ",g_pass)
 
