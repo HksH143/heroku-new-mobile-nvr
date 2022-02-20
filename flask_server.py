@@ -1,10 +1,15 @@
-from flask import Flask,request,redirect,render_template, url_for
+from datetime import timedelta
+from flask import Flask,request,redirect,render_template, url_for,session
 from markupsafe import re
 from werkzeug.datastructures import ImmutableMultiDict
 import os,sys 
+
+
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config['my_configs']="",""
+app.secret_key="hi"
+app.permanent_session_lifetime=timedelta(days=1)
 
 g_name=""
 g_pass=""
@@ -19,25 +24,35 @@ def send_configs():
     
     print("Successfully Entered the Configuration Page ")
     if request.method=="POST":
+        session.permanent=True
         my_name=request.form["nm"]
         password=request.form["pass"]
         g_name=my_name
         g_pass=password
         app.config['my_configs']=my_name,password
+        session["usr_name"]=my_name
+        session["usr_pass"]=password
         print("User entered Name: ",app.config['my_configs'][0] )
         print("User entered Password: ",app.config['my_configs'][1] )
         # return f"sending name as {my_name} and password as {password}"
-        return redirect( url_for("get_configs",usr_name=my_name,usr_pass=password) )
+        return redirect( url_for("get_configs") )
     else:
         return render_template("config_form.html")
     # wifi_ssid="Synapsify"
     # wifi_pass="synapsify@321"
     
-@app.route("/<usr_name> <usr_pass>",methods=['GET', 'POST'])
-def get_configs(usr_name,usr_pass):
+@app.route("/configs",methods=['GET', 'POST'])
+def get_configs():
     # usr_name,password=app.config['my_configs']
-    print("Received Name :",usr_name," Received password : ",usr_pass)
-    return f"Recieved name as {usr_name} and passowd as {usr_pass}"
+    
+    if "usr_name" in session:
+        my_name=session["usr_name"]
+        my_pass=session["usr_pass"]
+        print("Received Name :",my_name," Received password : ",my_pass)
+        return f"Recieved name as {my_name} and passowd as {my_pass}"
+    else:
+        return redirect(url_for("send_configs"))
+    
     # print("Received Name :",app.config['my_configs'][0]," Received password : ",app.config['my_configs'][1]) 
     # return f"Recieved name as {app.config['my_configs'][0]} and passowd as {app.config['my_configs'][1]}"    
 
