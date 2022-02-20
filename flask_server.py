@@ -1,19 +1,37 @@
 from datetime import timedelta
+from unicodedata import name
 from flask import Flask,request,redirect,render_template, url_for,session
 from markupsafe import re
 from werkzeug.datastructures import ImmutableMultiDict
 import os,sys 
-
+from flask_sqlalchemy import SQLAlchemy
 
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config['my_configs']="",""
 app.secret_key="hi"
 app.permanent_session_lifetime=timedelta(days=1)
+db_name = 'quectel.db'
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_name
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+db = SQLAlchemy(app)
 g_name=""
 g_pass=""
 sys.setrecursionlimit(1500)
+
+class quectel(db.Model):
+    _id=db.Column("id",db.Integer,primary_key=True)
+    name=db.Column(db.String(100))
+    passwrd=db.Column(db.String(100))
+
+    def __init__(self,name,passwrd):
+
+        self.name=name
+        self.passwrd=passwrd
+
+
+
 @app.route("/")
 def hello_world():
     
@@ -34,6 +52,10 @@ def send_configs():
         session["usr_pass"]=password
         print("User entered Name: ",app.config['my_configs'][0] )
         print("User entered Password: ",app.config['my_configs'][1] )
+
+        usr=quectel(my_name,password)
+        db.session.add(usr)
+        db.session.commit()
         # return f"sending name as {my_name} and password as {password}"
         return redirect( url_for("get_configs") )
     else:
@@ -44,14 +66,28 @@ def send_configs():
 @app.route("/configs",methods=['GET', 'POST'])
 def get_configs():
     # usr_name,password=app.config['my_configs']
-    
-    if "usr_name" in session:
-        my_name=session["usr_name"]
-        my_pass=session["usr_pass"]
-        print("Received Name :",my_name," Received password : ",my_pass)
-        return f"Recieved name as {my_name} and passowd as {my_pass}"
+    default_usr="admin"
+    found_usrs=quectel.query.filter_by(name=default_usr).first()
+    # session["usr_name"]=found_usrs.name
+    # session["usr_pass"]=found_usrs.passwrd 
+    print("name: ",found_usrs.name," usr_name: ",found_usrs.passwrd )
+    # if "usr_name" in session:
+    #     my_name=session["usr_name"]
+    #     my_pass=session["usr_pass"]
+    #     print("Received Name :",my_name," Received password : ",my_pass)
+    #     return f"Recieved name as {my_name} and passowd as {my_pass}"
+
+    print("Found Users: ",found_usrs)
+    if found_usrs:
+        
+        session["usr_name"]=found_usrs.name
+        session["usr_pass"]=found_usrs.passwrd
+        return f"Recieved name as {found_usrs.name} and passowd as {found_usrs.passwrd}" 
+
     else:
-        return redirect(url_for("send_configs"))
+        # return redirect(url_for("send_configs"))
+        return f"Found User {found_usrs}" 
+
     
     # print("Received Name :",app.config['my_configs'][0]," Received password : ",app.config['my_configs'][1]) 
     # return f"Recieved name as {app.config['my_configs'][0]} and passowd as {app.config['my_configs'][1]}"    
@@ -148,4 +184,5 @@ def receive_file():
 
 
 if __name__ == '__main__':
+    db.create_all()
     app.run(debug=True)
